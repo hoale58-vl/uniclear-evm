@@ -9,19 +9,19 @@ interface IUniClearLauncher {
     struct TokenConfig {
         string name;
         string symbol;
-        uint128 auctionSupply;
-        uint128 totalSupply;
-        bytes32 salt;
+        uint256 totalSupply;
     }
 
     /// @notice Configuration for the auction
     struct AuctionConfig {
         address raisedCurrency;
+        int24 tickSpacing;
         uint64 startBlock;
         uint64 endBlock;
         uint64 claimBlock;
         uint256 floorPrice;
         uint128 requiredCurrencyRaised;
+        uint128 auctionSupply;
     }
 
     /// @notice Information about an auction
@@ -64,15 +64,28 @@ interface IUniClearLauncher {
     /// @notice Emitted when an auction is migrated to a Uniswap pool
     event Migrated(PoolKey key, uint160 sqrtPriceX96);
 
-    /// @notice Deploy a new token and create an auction using ETH
+    /// @notice Deploy a new token and create an auction using specific currency
     /// @param tokenConfig Configuration for the new token
     /// @param auctionConfig Configuration for the auction
-    /// @param ccaFactory Address of the CCA factory
+    /// @param salt Salt to create token and auction
     /// @return _auction The created auction contract
-    function deployTokenCCAWithEth(
+    function deployTokenAndLaunchAuction(
         TokenConfig memory tokenConfig,
         AuctionConfig memory auctionConfig,
-        address ccaFactory
+        bytes32 salt
+    ) external payable returns (IContinuousClearingAuction _auction);
+
+    /// @notice Create an auction using specific currency
+    /// @param tokenAddress Token address use for auction
+    /// @param reserveSupply Amount of token reserve for liquidity
+    /// @param auctionConfig Configuration for the auction
+    /// @param salt Salt to create token and auction
+    /// @return _auction The created auction contract
+    function launchAuction(
+        address tokenAddress,
+        uint256 reserveSupply,
+        AuctionConfig memory auctionConfig,
+        bytes32 salt
     ) external payable returns (IContinuousClearingAuction _auction);
 
     /// @notice Migrate an auction to a Uniswap v4 pool

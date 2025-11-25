@@ -16,15 +16,16 @@ library UniClearDeployer {
     function deployToken(
         address create2Deployer,
         IUniClearLauncher.TokenConfig memory tokenConfig,
-        address receiver
+        address receiver,
+        bytes32 salt
     ) external returns (address tokenAddress) {
         bytes memory bytecode = abi.encodePacked(
             type(UniClearToken).creationCode,
-            abi.encode(tokenConfig.name, tokenConfig.symbol, receiver, uint256(tokenConfig.totalSupply))
+            abi.encode(tokenConfig.name, tokenConfig.symbol, receiver, tokenConfig.totalSupply)
         );
-        ICreate2Deployer(create2Deployer).deploy(0, tokenConfig.salt, bytecode);
+        ICreate2Deployer(create2Deployer).deploy(0, salt, bytecode);
 
         bytes32 codeHash = keccak256(bytecode);
-        return ICreate2Deployer(create2Deployer).computeAddress(tokenConfig.salt, codeHash);
+        return ICreate2Deployer(create2Deployer).computeAddress(salt, codeHash);
     }
 }

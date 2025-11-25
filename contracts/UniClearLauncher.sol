@@ -5,6 +5,11 @@ pragma solidity ^0.8.26;
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
+// OpenZeppelin Upgradable imports
+import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import {AccessControlUpgradeable} from "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
+import {IERC721Receiver} from "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
+
 // Uniswap v4 Core imports
 import {Currency} from "@uniswap/v4-core/src/types/Currency.sol";
 import {PoolKey} from "@uniswap/v4-core/src/types/PoolKey.sol";
@@ -45,7 +50,7 @@ struct AuctionParameters {
     bytes auctionStepsData; // Packed bytes describing token issuance schedule
 }
 
-contract UniClearLauncher is IUniClearLauncher {
+contract UniClearLauncher is IUniClearLauncher, UUPSUpgradeable, AccessControlUpgradeable, IERC721Receiver {
     // Libs
     using SafeERC20 for IERC20;
     using TokenPricing for uint256;
@@ -53,36 +58,68 @@ contract UniClearLauncher is IUniClearLauncher {
 
     // Storage
     mapping(address => AuctionInfo) public auctionInfo;
+    address public ccaFactory;
+    uint256 public deployFee;
+    address public create2Deployer;
+    IPositionManager public positionManager;
 
     // Constants
     /// @notice Number of params needed for a standalone full-range position
     ///         (1. mint, 2. settle, 3. settle, 4. take pair)
     uint256 public constant FULL_RANGE_SIZE = 4;
     address public constant DEAD_ADDRESS = 0x000000000000000000000000000000000000dEaD;
+    uint24 public constant POOL_FEE = 100; // 0.01%
+    int24 public constant POOL_TICK_SPACING = 1;
+    bytes32 private constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
 
-    uint256 public deployFee = 0.001 ether; // Example fee
-    address public create2Deployer; // Set in constructor
-    IPositionManager public positionManager; // Set in constructor
-    IHooks public hooks; // Set in constructor
-    uint24 public constant POOL_FEE = 3000; // 0.3%
-    int24 public constant TICK_SPACING = 60;
+    function initialize(address positionManager_, address create2Deployer_, address ccaFactory_) public initializer {
+        __AccessControl_init();
+        __UUPSUpgradeable_init();
 
-    constructor(address _create2Deployer, address _positionManager, address _hooks) {
-        create2Deployer = _create2Deployer;
-        positionManager = IPositionManager(_positionManager);
-        hooks = IHooks(_hooks);
+        // grant role
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(ADMIN_ROLE, msg.sender);
+
+        // uniswap configurations
+        positionManager = IPositionManager(positionManager_);
+        create2Deployer = create2Deployer_;
+        ccaFactory = ccaFactory_;
+
+        // fee
+        deployFee = 0.001 ether;
     }
 
-    function deployTokenCCAWithEth(
+    function deployTokenAndLaunchAuction(
         TokenConfig memory tokenConfig,
         AuctionConfig memory auctionConfig,
-        address ccaFactory
+        bytes32 salt
     ) public payable returns (IContinuousClearingAuction _auction) {
         require(deployFee == msg.value, "invalid fee");
-
         // deploy the token
-        address tokenAddress = UniClearDeployer.deployToken(create2Deployer, tokenConfig, address(this)); // Placeholder - replace with actual deployment
+        address tokenAddress = UniClearDeployer.deployToken(create2Deployer, tokenConfig, address(this), salt); // Placeholder - replace with actual deployment
+        return _launchAuction(tokenAddress, auctionConfig, salt);
+    }
 
+    function launchAuction(
+        address tokenAddress,
+        uint256 reserveSupply,
+        AuctionConfig memory auctionConfig,
+        bytes32 salt
+    ) public payable returns (IContinuousClearingAuction _auction) {
+        require(deployFee == msg.value, "invalid fee");
+        IERC20(tokenAddress).transferFrom(
+            msg.sender,
+            address(this),
+            reserveSupply + uint256(auctionConfig.auctionSupply)
+        );
+        return _launchAuction(tokenAddress, auctionConfig, salt);
+    }
+
+    function _launchAuction(
+        address tokenAddress,
+        AuctionConfig memory auctionConfig,
+        bytes32 salt
+    ) internal returns (IContinuousClearingAuction _auction) {
         uint40 blockDelta = uint40(auctionConfig.endBlock - auctionConfig.startBlock);
         AuctionParameters memory configData = AuctionParameters({
             currency: auctionConfig.raisedCurrency,
@@ -91,7 +128,7 @@ contract UniClearLauncher is IUniClearLauncher {
             startBlock: auctionConfig.startBlock,
             endBlock: auctionConfig.endBlock,
             claimBlock: auctionConfig.claimBlock,
-            tickSpacing: 60,
+            tickSpacing: auctionConfig.tickSpacing,
             validationHook: address(0),
             floorPrice: auctionConfig.floorPrice,
             requiredCurrencyRaised: auctionConfig.requiredCurrencyRaised,
@@ -106,9 +143,9 @@ contract UniClearLauncher is IUniClearLauncher {
             address(
                 IContinuousClearingAuctionFactory(ccaFactory).initializeDistribution(
                     tokenAddress,
-                    tokenConfig.auctionSupply,
+                    auctionConfig.auctionSupply,
                     abi.encode(configData),
-                    tokenConfig.salt
+                    salt
                 )
             )
         );
@@ -117,12 +154,12 @@ contract UniClearLauncher is IUniClearLauncher {
         auctionInfo[tokenAddress] = AuctionInfo({
             auction: _auction,
             raisedCurrency: auctionConfig.raisedCurrency,
-            reserveSupply: tokenConfig.totalSupply - tokenConfig.auctionSupply,
+            reserveSupply: uint128(IERC20(tokenAddress).balanceOf(address(this))) - auctionConfig.auctionSupply,
             endBlock: auctionConfig.endBlock
         });
 
         // Now transfer the tokens to the distribution address
-        IERC20(tokenAddress).safeTransfer(address(_auction), tokenConfig.auctionSupply);
+        IERC20(tokenAddress).safeTransfer(address(_auction), uint256(auctionConfig.auctionSupply));
 
         // Notify the distribution contract that it has received the tokens
         _auction.onTokensReceived();
@@ -200,8 +237,8 @@ contract UniClearLauncher is IUniClearLauncher {
 
         data.liquidity = LiquidityAmounts.getLiquidityForAmounts(
             data.sqrtPriceX96,
-            TickMath.getSqrtPriceAtTick(TickMath.minUsableTick(TICK_SPACING)),
-            TickMath.getSqrtPriceAtTick(TickMath.maxUsableTick(TICK_SPACING)),
+            TickMath.getSqrtPriceAtTick(TickMath.minUsableTick(POOL_TICK_SPACING)),
+            TickMath.getSqrtPriceAtTick(TickMath.maxUsableTick(POOL_TICK_SPACING)),
             currency < poolToken ? data.initialCurrencyAmount : data.initialTokenAmount,
             currency < poolToken ? data.initialTokenAmount : data.initialCurrencyAmount
         );
@@ -217,8 +254,8 @@ contract UniClearLauncher is IUniClearLauncher {
             currency0: Currency.wrap(currency < poolToken ? currency : poolToken),
             currency1: Currency.wrap(currency < poolToken ? poolToken : currency),
             fee: POOL_FEE,
-            tickSpacing: TICK_SPACING,
-            hooks: hooks
+            tickSpacing: POOL_TICK_SPACING,
+            hooks: IHooks(address(0))
         });
         positionManager.initializePool(key, sqrtPriceX96);
     }
@@ -241,11 +278,11 @@ contract UniClearLauncher is IUniClearLauncher {
             currency: currency,
             poolToken: poolToken,
             poolLPFee: POOL_FEE,
-            poolTickSpacing: TICK_SPACING,
+            poolTickSpacing: POOL_TICK_SPACING,
             initialSqrtPriceX96: data.sqrtPriceX96,
             liquidity: data.liquidity,
-            positionRecipient: DEAD_ADDRESS,
-            hooks: hooks
+            positionRecipient: DEAD_ADDRESS, // Burn
+            hooks: IHooks(address(0))
         });
 
         (actions, params) = _createFullRangePositionPlan(
@@ -322,4 +359,20 @@ contract UniClearLauncher is IUniClearLauncher {
     }
 
     receive() external payable {}
+
+    // Enable contract to receive LP Tokens
+    function onERC721Received(address, address, uint256, bytes calldata) external pure override returns (bytes4) {
+        return IERC721Receiver.onERC721Received.selector;
+    }
+
+    function setDeployFee(uint256 deployFee_) external onlyRole(ADMIN_ROLE) {
+        deployFee = deployFee_;
+    }
+
+    function withdrawETH(address recipient) public onlyRole(ADMIN_ROLE) {
+        (bool success, ) = payable(recipient).call{value: address(this).balance}("");
+        require(success, "Unable to withdraw");
+    }
+
+    function _authorizeUpgrade(address) internal override onlyRole(ADMIN_ROLE) {}
 }
