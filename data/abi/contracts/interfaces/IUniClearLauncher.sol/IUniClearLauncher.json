@@ -81,6 +81,11 @@
                         "type": "address"
                     },
                     {
+                        "internalType": "int24",
+                        "name": "tickSpacing",
+                        "type": "int24"
+                    },
+                    {
                         "internalType": "uint64",
                         "name": "startBlock",
                         "type": "uint64"
@@ -103,6 +108,11 @@
                     {
                         "internalType": "uint128",
                         "name": "requiredCurrencyRaised",
+                        "type": "uint128"
+                    },
+                    {
+                        "internalType": "uint128",
+                        "name": "auctionSupply",
                         "type": "uint128"
                     }
                 ],
@@ -210,19 +220,9 @@
                         "type": "string"
                     },
                     {
-                        "internalType": "uint128",
-                        "name": "auctionSupply",
-                        "type": "uint128"
-                    },
-                    {
-                        "internalType": "uint128",
+                        "internalType": "uint256",
                         "name": "totalSupply",
-                        "type": "uint128"
-                    },
-                    {
-                        "internalType": "bytes32",
-                        "name": "salt",
-                        "type": "bytes32"
+                        "type": "uint256"
                     }
                 ],
                 "internalType": "struct IUniClearLauncher.TokenConfig",
@@ -235,6 +235,11 @@
                         "internalType": "address",
                         "name": "raisedCurrency",
                         "type": "address"
+                    },
+                    {
+                        "internalType": "int24",
+                        "name": "tickSpacing",
+                        "type": "int24"
                     },
                     {
                         "internalType": "uint64",
@@ -260,6 +265,11 @@
                         "internalType": "uint128",
                         "name": "requiredCurrencyRaised",
                         "type": "uint128"
+                    },
+                    {
+                        "internalType": "uint128",
+                        "name": "auctionSupply",
+                        "type": "uint128"
                     }
                 ],
                 "internalType": "struct IUniClearLauncher.AuctionConfig",
@@ -267,12 +277,88 @@
                 "type": "tuple"
             },
             {
-                "internalType": "address",
-                "name": "ccaFactory",
+                "internalType": "bytes32",
+                "name": "salt",
+                "type": "bytes32"
+            }
+        ],
+        "name": "deployTokenAndLaunchAuction",
+        "outputs": [
+            {
+                "internalType": "contract IContinuousClearingAuction",
+                "name": "_auction",
                 "type": "address"
             }
         ],
-        "name": "deployTokenCCAWithEth",
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "tokenAddress",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "reserveSupply",
+                "type": "uint256"
+            },
+            {
+                "components": [
+                    {
+                        "internalType": "address",
+                        "name": "raisedCurrency",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "int24",
+                        "name": "tickSpacing",
+                        "type": "int24"
+                    },
+                    {
+                        "internalType": "uint64",
+                        "name": "startBlock",
+                        "type": "uint64"
+                    },
+                    {
+                        "internalType": "uint64",
+                        "name": "endBlock",
+                        "type": "uint64"
+                    },
+                    {
+                        "internalType": "uint64",
+                        "name": "claimBlock",
+                        "type": "uint64"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "floorPrice",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint128",
+                        "name": "requiredCurrencyRaised",
+                        "type": "uint128"
+                    },
+                    {
+                        "internalType": "uint128",
+                        "name": "auctionSupply",
+                        "type": "uint128"
+                    }
+                ],
+                "internalType": "struct IUniClearLauncher.AuctionConfig",
+                "name": "auctionConfig",
+                "type": "tuple"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "salt",
+                "type": "bytes32"
+            }
+        ],
+        "name": "launchAuction",
         "outputs": [
             {
                 "internalType": "contract IContinuousClearingAuction",

@@ -53,9 +53,6 @@ importers:
       '@uniswap/v4-sdk':
         specifier: ^1.21.2
         version: 1.23.0(hardhat@2.27.0(bufferutil@4.0.5)(ts-node@10.9.2(@types/node@24.10.1)(typescript@5.9.3))(typescript@5.9.3)(utf-8-validate@5.0.7))
-      chai:
-        specifier: ^4.3.7
-        version: 4.5.0
       dotenv:
         specifier: ^16.0.3
         version: 16.6.1
@@ -93,9 +90,15 @@ importers:
         specifier: ^5.0.4
         version: 5.9.3
     devDependencies:
+      '@nomicfoundation/hardhat-chai-matchers':
+        specifier: ^2.1.0
+        version: 2.1.0(@nomicfoundation/hardhat-ethers@3.1.2(ethers@6.15.0(bufferutil@4.0.5)(utf-8-validate@5.0.7))(hardhat@2.27.0(bufferutil@4.0.5)(ts-node@10.9.2(@types/node@24.10.1)(typescript@5.9.3))(typescript@5.9.3)(utf-8-validate@5.0.7)))(chai@4.5.0)(ethers@6.15.0(bufferutil@4.0.5)(utf-8-validate@5.0.7))(hardhat@2.27.0(bufferutil@4.0.5)(ts-node@10.9.2(@types/node@24.10.1)(typescript@5.9.3))(typescript@5.9.3)(utf-8-validate@5.0.7))
       '@nomicfoundation/hardhat-toolbox':
         specifier: ^3.0.0
         version: 3.0.0(4ad1b2d76ba34c712d7662179152b8df)
+      chai:
+        specifier: '4'
+        version: 4.5.0
       hardhat:
         specifier: ^2.19.0
         version: 2.27.0(bufferutil@4.0.5)(ts-node@10.9.2(@types/node@24.10.1)(typescript@5.9.3))(typescript@5.9.3)(utf-8-validate@5.0.7)

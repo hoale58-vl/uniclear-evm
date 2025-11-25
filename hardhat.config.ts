@@ -1,6 +1,7 @@
 import { task } from "hardhat/config";
 import "@openzeppelin/hardhat-upgrades";
 import "@nomicfoundation/hardhat-verify";
+import "@nomicfoundation/hardhat-chai-matchers";
 import "hardhat-contract-sizer";
 import "hardhat-abi-exporter";
 import "hardhat-gas-reporter";
@@ -55,6 +56,11 @@ module.exports = {
       chainId: 1,
       accounts: [privateKey],
       timeout: 2_147_483_647,
+    },
+    hardhat: {
+      forking: {
+        url: "https://unichain.drpc.org"
+      }
     }
   },
   solidity: {

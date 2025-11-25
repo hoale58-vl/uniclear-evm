@@ -21,6 +21,7 @@ const unichainSepoliaScriptConfig: Config = {
 const configs: Record<string, Config> = {
   "unichain": unichainScriptConfig,
   "unichainSepolia": unichainSepoliaScriptConfig,
+  "hardhat": unichainScriptConfig,
 };
 
 export const ScriptConfig: Config = configs[hre.network.name];
