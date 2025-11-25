@@ -1,0 +1,118 @@
+[
+    {
+        "inputs": [],
+        "name": "AuctionIsOver",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "InvalidAuctionDataLength",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "InvalidEndBlock",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint64",
+                "name": "actualEndBlock",
+                "type": "uint64"
+            },
+            {
+                "internalType": "uint64",
+                "name": "expectedEndBlock",
+                "type": "uint64"
+            }
+        ],
+        "name": "InvalidEndBlockGivenStepData",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "actualMps",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "expectedMps",
+                "type": "uint256"
+            }
+        ],
+        "name": "InvalidStepDataMps",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "StepBlockDeltaCannotBeZero",
+        "type": "error"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "startBlock",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "endBlock",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint24",
+                "name": "mps",
+                "type": "uint24"
+            }
+        ],
+        "name": "AuctionStepRecorded",
+        "type": "event"
+    },
+    {
+        "inputs": [],
+        "name": "endBlock",
+        "outputs": [
+            {
+                "internalType": "uint64",
+                "name": "",
+                "type": "uint64"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "pointer",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "startBlock",
+        "outputs": [
+            {
+                "internalType": "uint64",
+                "name": "",
+                "type": "uint64"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    }
+]

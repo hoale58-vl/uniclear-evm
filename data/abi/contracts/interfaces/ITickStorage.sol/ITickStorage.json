@@ -1,0 +1,138 @@
+[
+    {
+        "inputs": [],
+        "name": "CannotUpdateUninitializedTick",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "FloorPriceIsZero",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "FloorPriceTooLow",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "InvalidTickPrice",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "TickPreviousPriceInvalid",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "TickPriceNotAtBoundary",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "TickPriceNotIncreasing",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "TickSpacingTooSmall",
+        "type": "error"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "price",
+                "type": "uint256"
+            }
+        ],
+        "name": "NextActiveTickUpdated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "price",
+                "type": "uint256"
+            }
+        ],
+        "name": "TickInitialized",
+        "type": "event"
+    },
+    {
+        "inputs": [],
+        "name": "floorPrice",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "nextActiveTickPrice",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "tickSpacing",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "price",
+                "type": "uint256"
+            }
+        ],
+        "name": "ticks",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "uint256",
+                        "name": "next",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "currencyDemandQ96",
+                        "type": "uint256"
+                    }
+                ],
+                "internalType": "struct Tick",
+                "name": "",
+                "type": "tuple"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    }
+]

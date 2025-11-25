@@ -1,0 +1,74 @@
+[
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "currencyAmount",
+                "type": "uint256"
+            }
+        ],
+        "name": "AmountOverflow",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "price",
+                "type": "uint256"
+            }
+        ],
+        "name": "PriceIsZero",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "price",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "maxPrice",
+                "type": "uint256"
+            }
+        ],
+        "name": "PriceTooHigh",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint160",
+                "name": "sqrtPriceX96",
+                "type": "uint160"
+            },
+            {
+                "internalType": "uint160",
+                "name": "minSqrtPriceX96",
+                "type": "uint160"
+            },
+            {
+                "internalType": "uint160",
+                "name": "maxSqrtPriceX96",
+                "type": "uint160"
+            }
+        ],
+        "name": "SqrtPriceX96OutOfBounds",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "Q192",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    }
+]

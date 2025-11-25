@@ -1,0 +1,299 @@
+[
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "currencyAmount",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "maxAmount",
+                "type": "uint256"
+            }
+        ],
+        "name": "CurrencyAmountTooHigh",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "required",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "actual",
+                "type": "uint256"
+            }
+        ],
+        "name": "InsufficientCurrency",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "migrationBlock",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "currentBlock",
+                "type": "uint256"
+            }
+        ],
+        "name": "MigrationNotAllowed",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "NoCurrencyRaised",
+        "type": "error"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "auction",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "creator",
+                "type": "address"
+            },
+            {
+                "components": [
+                    {
+                        "internalType": "address",
+                        "name": "raisedCurrency",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint64",
+                        "name": "startBlock",
+                        "type": "uint64"
+                    },
+                    {
+                        "internalType": "uint64",
+                        "name": "endBlock",
+                        "type": "uint64"
+                    },
+                    {
+                        "internalType": "uint64",
+                        "name": "claimBlock",
+                        "type": "uint64"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "floorPrice",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint128",
+                        "name": "requiredCurrencyRaised",
+                        "type": "uint128"
+                    }
+                ],
+                "indexed": false,
+                "internalType": "struct IUniClearLauncher.AuctionConfig",
+                "name": "auctionConfig",
+                "type": "tuple"
+            }
+        ],
+        "name": "AuctionCreated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "Currency",
+                        "name": "currency0",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "Currency",
+                        "name": "currency1",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint24",
+                        "name": "fee",
+                        "type": "uint24"
+                    },
+                    {
+                        "internalType": "int24",
+                        "name": "tickSpacing",
+                        "type": "int24"
+                    },
+                    {
+                        "internalType": "contract IHooks",
+                        "name": "hooks",
+                        "type": "address"
+                    }
+                ],
+                "indexed": false,
+                "internalType": "struct PoolKey",
+                "name": "key",
+                "type": "tuple"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint160",
+                "name": "sqrtPriceX96",
+                "type": "uint160"
+            }
+        ],
+        "name": "Migrated",
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+            }
+        ],
+        "name": "auctionInfo",
+        "outputs": [
+            {
+                "internalType": "contract IContinuousClearingAuction",
+                "name": "auction",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "raisedCurrency",
+                "type": "address"
+            },
+            {
+                "internalType": "uint128",
+                "name": "reserveSupply",
+                "type": "uint128"
+            },
+            {
+                "internalType": "uint64",
+                "name": "endBlock",
+                "type": "uint64"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "string",
+                        "name": "name",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "symbol",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "uint128",
+                        "name": "auctionSupply",
+                        "type": "uint128"
+                    },
+                    {
+                        "internalType": "uint128",
+                        "name": "totalSupply",
+                        "type": "uint128"
+                    },
+                    {
+                        "internalType": "bytes32",
+                        "name": "salt",
+                        "type": "bytes32"
+                    }
+                ],
+                "internalType": "struct IUniClearLauncher.TokenConfig",
+                "name": "tokenConfig",
+                "type": "tuple"
+            },
+            {
+                "components": [
+                    {
+                        "internalType": "address",
+                        "name": "raisedCurrency",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint64",
+                        "name": "startBlock",
+                        "type": "uint64"
+                    },
+                    {
+                        "internalType": "uint64",
+                        "name": "endBlock",
+                        "type": "uint64"
+                    },
+                    {
+                        "internalType": "uint64",
+                        "name": "claimBlock",
+                        "type": "uint64"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "floorPrice",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint128",
+                        "name": "requiredCurrencyRaised",
+                        "type": "uint128"
+                    }
+                ],
+                "internalType": "struct IUniClearLauncher.AuctionConfig",
+                "name": "auctionConfig",
+                "type": "tuple"
+            },
+            {
+                "internalType": "address",
+                "name": "ccaFactory",
+                "type": "address"
+            }
+        ],
+        "name": "deployTokenCCAWithEth",
+        "outputs": [
+            {
+                "internalType": "contract IContinuousClearingAuction",
+                "name": "_auction",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+            }
+        ],
+        "name": "migrate",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }
+]

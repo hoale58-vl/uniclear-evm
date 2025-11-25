@@ -1,0 +1,150 @@
+[
+    {
+        "inputs": [],
+        "name": "CannotSweepCurrency",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "CannotSweepTokens",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "FundsRecipientIsZero",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "NotGraduated",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "TokenAndCurrencyCannotBeTheSame",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "TokenIsAddressZero",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "TokensRecipientIsZero",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "TotalSupplyIsTooLarge",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "TotalSupplyIsZero",
+        "type": "error"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "fundsRecipient",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "currencyAmount",
+                "type": "uint256"
+            }
+        ],
+        "name": "CurrencySwept",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "tokensRecipient",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "tokensAmount",
+                "type": "uint256"
+            }
+        ],
+        "name": "TokensSwept",
+        "type": "event"
+    },
+    {
+        "inputs": [],
+        "name": "currency",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "fundsRecipient",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "token",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "tokensRecipient",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "totalSupply",
+        "outputs": [
+            {
+                "internalType": "uint128",
+                "name": "",
+                "type": "uint128"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    }
+]

@@ -1,0 +1,25 @@
+[
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "bidder",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bytes",
+                "name": "data",
+                "type": "bytes"
+            }
+        ],
+        "name": "validate",
+        "outputs": [],
+        "stateMutability": "view",
+        "type": "function"
+    }
+]
