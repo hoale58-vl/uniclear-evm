@@ -1,0 +1,10 @@
+{
+  "name": "unichainSepolia",
+  "chainId": "1301",
+  "addresses": {
+    "UniClearDeployer": "0xd848f710398c6d2ee9A850E992817f3e8aFc76Cb",
+    "UniClearLauncher": "0xd2465E107f25df9afC09Bfd0f533E9F4fF22B31F",
+    "UniClearLauncher_Implementation": "0x007F0F96e51628e8e98517451f3F8E06Dc50da59",
+    "UniClearLauncher_Proxy": "0xd2465E107f25df9afC09Bfd0f533E9F4fF22B31F"
+  }
+}
