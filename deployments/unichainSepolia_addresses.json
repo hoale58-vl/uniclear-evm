@@ -2,9 +2,9 @@
   "name": "unichainSepolia",
   "chainId": "1301",
   "addresses": {
-    "UniClearDeployer": "0xd848f710398c6d2ee9A850E992817f3e8aFc76Cb",
-    "UniClearLauncher": "0xd2465E107f25df9afC09Bfd0f533E9F4fF22B31F",
-    "UniClearLauncher_Implementation": "0x007F0F96e51628e8e98517451f3F8E06Dc50da59",
-    "UniClearLauncher_Proxy": "0xd2465E107f25df9afC09Bfd0f533E9F4fF22B31F"
+    "UniClearDeployer": "0x119A16c48A849AaC6176d54cB44685b1D00A36C1",
+    "UniClearLauncher": "0x11908772F5adc0872F4567A30560D38e5CDEF51d",
+    "UniClearLauncher_Implementation": "0xfff47EaAA0D30741053D53C2A64eD9521611D607",
+    "UniClearLauncher_Proxy": "0x11908772F5adc0872F4567A30560D38e5CDEF51d"
   }
 }

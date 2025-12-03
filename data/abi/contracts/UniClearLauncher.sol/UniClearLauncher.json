@@ -1034,6 +1034,24 @@
         "inputs": [
             {
                 "internalType": "address",
+                "name": "auction",
+                "type": "address"
+            },
+            {
+                "internalType": "string",
+                "name": "_metadataUri",
+                "type": "string"
+            }
+        ],
+        "name": "updateMetadataUri",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
                 "name": "newImplementation",
                 "type": "address"
             },

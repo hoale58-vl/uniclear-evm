@@ -3,11 +3,11 @@
   "chainId": "1301",
   "contracts": {
     "UniClearDeployer": {
-      "address": "0xd848f710398c6d2ee9A850E992817f3e8aFc76Cb",
+      "address": "0x119A16c48A849AaC6176d54cB44685b1D00A36C1",
       "abi": []
     },
     "UniClearLauncher": {
-      "address": "0xd2465E107f25df9afC09Bfd0f533E9F4fF22B31F",
+      "address": "0x11908772F5adc0872F4567A30560D38e5CDEF51d",
       "abi": [
         {
           "anonymous": false,
@@ -159,6 +159,17 @@
           "type": "error"
         },
         {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "invalidLength",
+              "type": "uint256"
+            }
+          ],
+          "name": "InvalidActionsLength",
+          "type": "error"
+        },
+        {
           "inputs": [],
           "name": "InvalidInitialization",
           "type": "error"
@@ -359,6 +370,25 @@
             }
           ],
           "name": "Initialized",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "auctionAddress",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "metadataUri",
+              "type": "string"
+            }
+          ],
+          "name": "MetadataUriUpdated",
           "type": "event"
         },
         {
@@ -523,6 +553,19 @@
         },
         {
           "inputs": [],
+          "name": "FULL_RANGE_WITH_ONE_SIDED_SIZE",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
           "name": "POOL_FEE",
           "outputs": [
             {
@@ -573,6 +616,11 @@
             {
               "internalType": "contract IContinuousClearingAuction",
               "name": "auction",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "creator",
               "type": "address"
             },
             {
@@ -708,6 +756,11 @@
               "internalType": "bytes32",
               "name": "salt",
               "type": "bytes32"
+            },
+            {
+              "internalType": "string",
+              "name": "metadataUri",
+              "type": "string"
             }
           ],
           "name": "deployTokenAndLaunchAuction",
@@ -868,6 +921,11 @@
               "internalType": "bytes32",
               "name": "salt",
               "type": "bytes32"
+            },
+            {
+              "internalType": "string",
+              "name": "metadataUri",
+              "type": "string"
             }
           ],
           "name": "launchAuction",
@@ -1026,6 +1084,24 @@
           "inputs": [
             {
               "internalType": "address",
+              "name": "auction",
+              "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "_metadataUri",
+              "type": "string"
+            }
+          ],
+          "name": "updateMetadataUri",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
               "name": "newImplementation",
               "type": "address"
             },
@@ -1072,7 +1148,7 @@
       ]
     },
     "UniClearLauncher_Implementation": {
-      "address": "0x007F0F96e51628e8e98517451f3F8E06Dc50da59",
+      "address": "0xfff47EaAA0D30741053D53C2A64eD9521611D607",
       "abi": [
         {
           "inputs": [],
@@ -1168,6 +1244,17 @@
             }
           ],
           "name": "InsufficientCurrency",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "invalidLength",
+              "type": "uint256"
+            }
+          ],
+          "name": "InvalidActionsLength",
           "type": "error"
         },
         {
@@ -1371,6 +1458,25 @@
             }
           ],
           "name": "Initialized",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "auctionAddress",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "metadataUri",
+              "type": "string"
+            }
+          ],
+          "name": "MetadataUriUpdated",
           "type": "event"
         },
         {
@@ -1548,6 +1654,19 @@
         },
         {
           "inputs": [],
+          "name": "FULL_RANGE_WITH_ONE_SIDED_SIZE",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
           "name": "POOL_FEE",
           "outputs": [
             {
@@ -1598,6 +1717,11 @@
             {
               "internalType": "contract IContinuousClearingAuction",
               "name": "auction",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "creator",
               "type": "address"
             },
             {
@@ -1733,6 +1857,11 @@
               "internalType": "bytes32",
               "name": "salt",
               "type": "bytes32"
+            },
+            {
+              "internalType": "string",
+              "name": "metadataUri",
+              "type": "string"
             }
           ],
           "name": "deployTokenAndLaunchAuction",
@@ -1893,6 +2022,11 @@
               "internalType": "bytes32",
               "name": "salt",
               "type": "bytes32"
+            },
+            {
+              "internalType": "string",
+              "name": "metadataUri",
+              "type": "string"
             }
           ],
           "name": "launchAuction",
@@ -2051,6 +2185,24 @@
           "inputs": [
             {
               "internalType": "address",
+              "name": "auction",
+              "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "_metadataUri",
+              "type": "string"
+            }
+          ],
+          "name": "updateMetadataUri",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
               "name": "newImplementation",
               "type": "address"
             },
@@ -2085,7 +2237,7 @@
       ]
     },
     "UniClearLauncher_Proxy": {
-      "address": "0xd2465E107f25df9afC09Bfd0f533E9F4fF22B31F",
+      "address": "0x11908772F5adc0872F4567A30560D38e5CDEF51d",
       "abi": [
         {
           "inputs": [
