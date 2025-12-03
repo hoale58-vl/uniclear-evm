@@ -456,4 +456,9 @@ contract UniClearLauncher is IUniClearLauncher, UUPSUpgradeable, AccessControlUp
     }
 
     function _authorizeUpgrade(address) internal override onlyRole(ADMIN_ROLE) {}
+
+    function updateMetadataUri(address auction, string memory _metadataUri) public {
+        require(auctionInfo[auction].creator == msg.sender, "unauthorized");
+        emit MetadataUriUpdated(auction, _metadataUri);
+    }
 }
