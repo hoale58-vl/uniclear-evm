@@ -27,6 +27,7 @@ interface IUniClearLauncher {
     /// @notice Information about an auction
     struct AuctionInfo {
         IContinuousClearingAuction auction;
+        address creator;
         address raisedCurrency;
         uint128 reserveSupply;
         uint64 endBlock;
@@ -39,6 +40,8 @@ interface IUniClearLauncher {
         uint128 leftoverCurrency;
         uint128 initialCurrencyAmount;
         uint128 liquidity;
+        bool shouldCreateOneSided;
+        bool hasOneSidedParams;
     }
 
     /// @notice Error thrown when migration is attempted before allowed block
@@ -64,6 +67,8 @@ interface IUniClearLauncher {
     /// @notice Emitted when an auction is migrated to a Uniswap pool
     event Migrated(PoolKey key, uint160 sqrtPriceX96);
 
+    event MetadataUriUpdated(address auctionAddress, string metadataUri);
+
     /// @notice Deploy a new token and create an auction using specific currency
     /// @param tokenConfig Configuration for the new token
     /// @param auctionConfig Configuration for the auction
@@ -72,7 +77,8 @@ interface IUniClearLauncher {
     function deployTokenAndLaunchAuction(
         TokenConfig memory tokenConfig,
         AuctionConfig memory auctionConfig,
-        bytes32 salt
+        bytes32 salt,
+        string memory metadataUri
     ) external payable returns (IContinuousClearingAuction _auction);
 
     /// @notice Create an auction using specific currency
@@ -85,7 +91,8 @@ interface IUniClearLauncher {
         address tokenAddress,
         uint256 reserveSupply,
         AuctionConfig memory auctionConfig,
-        bytes32 salt
+        bytes32 salt,
+        string memory metadataUri
     ) external payable returns (IContinuousClearingAuction _auction);
 
     /// @notice Migrate an auction to a Uniswap v4 pool
@@ -95,6 +102,7 @@ interface IUniClearLauncher {
     /// @notice Get auction information for a token
     /// @param token Address of the token
     /// @return auction Auction contract address
+    /// @return creator Auction creator address
     /// @return raisedCurrency Currency address
     /// @return reserveSupply Reserve supply amount
     /// @return endBlock Auction end block
@@ -103,5 +111,5 @@ interface IUniClearLauncher {
     )
         external
         view
-        returns (IContinuousClearingAuction auction, address raisedCurrency, uint128 reserveSupply, uint64 endBlock);
+        returns (IContinuousClearingAuction auction, address creator, address raisedCurrency, uint128 reserveSupply, uint64 endBlock);
 }

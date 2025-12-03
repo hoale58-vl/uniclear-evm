@@ -32,7 +32,7 @@ import {StrategyPlanner} from "./libraries/StrategyPlanner.sol";
 import {UniClearDeployer} from "./UniClearDeployer.sol";
 
 // Local types
-import {BasePositionParams, FullRangeParams} from "./types/PositionTypes.sol";
+import {BasePositionParams, FullRangeParams, OneSidedParams} from "./types/PositionTypes.sol";
 
 /// @notice Parameters for the auction
 /// @dev token and totalSupply are passed as constructor arguments
@@ -67,6 +67,9 @@ contract UniClearLauncher is IUniClearLauncher, UUPSUpgradeable, AccessControlUp
     /// @notice Number of params needed for a standalone full-range position
     ///         (1. mint, 2. settle, 3. settle, 4. take pair)
     uint256 public constant FULL_RANGE_SIZE = 4;
+    /// @notice Number of params needed for full-range + one-sided position
+    ///         (1. mint full range, 2. settle, 3. settle, 4. mint one-sided, 5. take pair)
+    uint256 public constant FULL_RANGE_WITH_ONE_SIDED_SIZE = 5;
     address public constant DEAD_ADDRESS = 0x000000000000000000000000000000000000dEaD;
     uint24 public constant POOL_FEE = 100; // 0.01%
     int24 public constant POOL_TICK_SPACING = 1;
@@ -92,27 +95,31 @@ contract UniClearLauncher is IUniClearLauncher, UUPSUpgradeable, AccessControlUp
     function deployTokenAndLaunchAuction(
         TokenConfig memory tokenConfig,
         AuctionConfig memory auctionConfig,
-        bytes32 salt
+        bytes32 salt,
+        string memory metadataUri
     ) public payable returns (IContinuousClearingAuction _auction) {
         require(deployFee == msg.value, "invalid fee");
         // deploy the token
         address tokenAddress = UniClearDeployer.deployToken(create2Deployer, tokenConfig, address(this), salt); // Placeholder - replace with actual deployment
-        return _launchAuction(tokenAddress, auctionConfig, salt);
+        _auction = _launchAuction(tokenAddress, auctionConfig, salt);
+        emit MetadataUriUpdated(address(_auction), metadataUri);
     }
 
     function launchAuction(
         address tokenAddress,
         uint256 reserveSupply,
         AuctionConfig memory auctionConfig,
-        bytes32 salt
-    ) public payable returns (IContinuousClearingAuction _auction) {
+        bytes32 salt,
+        string memory metadataUri
+    ) external payable returns (IContinuousClearingAuction _auction) {
         require(deployFee == msg.value, "invalid fee");
         IERC20(tokenAddress).transferFrom(
             msg.sender,
             address(this),
             reserveSupply + uint256(auctionConfig.auctionSupply)
         );
-        return _launchAuction(tokenAddress, auctionConfig, salt);
+        _auction = _launchAuction(tokenAddress, auctionConfig, salt);
+        emit MetadataUriUpdated(address(_auction), metadataUri);
     }
 
     function _launchAuction(
@@ -153,6 +160,7 @@ contract UniClearLauncher is IUniClearLauncher, UUPSUpgradeable, AccessControlUp
         // Save auction info
         auctionInfo[tokenAddress] = AuctionInfo({
             auction: _auction,
+            creator: msg.sender,
             raisedCurrency: auctionConfig.raisedCurrency,
             reserveSupply: uint128(IERC20(tokenAddress).balanceOf(address(this))) - auctionConfig.auctionSupply,
             endBlock: auctionConfig.endBlock
@@ -243,6 +251,11 @@ contract UniClearLauncher is IUniClearLauncher, UUPSUpgradeable, AccessControlUp
             currency < poolToken ? data.initialTokenAmount : data.initialCurrencyAmount
         );
 
+        // Determine if we should create a one-sided position
+        // Create one-sided token position if we have excess tokens OR
+        // Create one-sided currency position if we have leftover currency
+        data.shouldCreateOneSided = reserveSupply > data.initialTokenAmount || data.leftoverCurrency > 0;
+
         return data;
     }
 
@@ -269,6 +282,7 @@ contract UniClearLauncher is IUniClearLauncher, UUPSUpgradeable, AccessControlUp
     ) private view returns (bytes memory plan) {
         AuctionInfo memory _auctionInfo = auctionInfo[poolToken];
         address currency = _auctionInfo.raisedCurrency;
+        uint128 reserveSupply = _auctionInfo.reserveSupply;
 
         bytes memory actions;
         bytes[] memory params;
@@ -285,12 +299,26 @@ contract UniClearLauncher is IUniClearLauncher, UUPSUpgradeable, AccessControlUp
             hooks: IHooks(address(0))
         });
 
-        (actions, params) = _createFullRangePositionPlan(
-            baseParams,
-            data.initialTokenAmount,
-            data.initialCurrencyAmount,
-            FULL_RANGE_SIZE
-        );
+        if (data.shouldCreateOneSided) {
+            (actions, params) = _createFullRangePositionPlan(
+                baseParams,
+                data.initialTokenAmount,
+                data.initialCurrencyAmount,
+                FULL_RANGE_WITH_ONE_SIDED_SIZE
+            );
+            (actions, params) = _createOneSidedPositionPlan(
+                baseParams, actions, params, data.initialTokenAmount, data.leftoverCurrency, reserveSupply
+            );
+            // shouldCreateOneSided could be true, but if the one sided position is not valid, only a full range position will be created
+            data.hasOneSidedParams = params.length == FULL_RANGE_WITH_ONE_SIDED_SIZE;
+        } else {
+            (actions, params) = _createFullRangePositionPlan(
+                baseParams,
+                data.initialTokenAmount,
+                data.initialCurrencyAmount,
+                FULL_RANGE_SIZE
+            );
+        }
 
         (actions, params) = _createFinalTakePairPlan(baseParams, actions, params);
 
@@ -303,15 +331,16 @@ contract UniClearLauncher is IUniClearLauncher, UUPSUpgradeable, AccessControlUp
     function _transferAssetsAndExecutePlan(address token, MigrationData memory data, bytes memory plan) private {
         AuctionInfo memory _auctionInfo = auctionInfo[token];
         address currency = _auctionInfo.raisedCurrency;
+        uint128 reserveSupply = _auctionInfo.reserveSupply;
 
         // Calculate token amount to transfer
-        uint128 tokenTransferAmount = data.initialTokenAmount;
+        uint128 tokenTransferAmount = _getTokenTransferAmount(data, reserveSupply);
 
         // Transfer tokens to position manager
         Currency.wrap(token).transfer(address(positionManager), tokenTransferAmount);
 
         // Calculate currency amount and execute plan
-        uint128 currencyTransferAmount = data.initialCurrencyAmount;
+        uint128 currencyTransferAmount = _getCurrencyTransferAmount(data);
 
         if (Currency.wrap(currency).isAddressZero()) {
             // Native currency: send as value with modifyLiquidities call
@@ -323,11 +352,33 @@ contract UniClearLauncher is IUniClearLauncher, UUPSUpgradeable, AccessControlUp
         }
     }
 
+    /// @notice Calculates the amount of tokens to transfer
+    /// @param data Migration data
+    /// @param reserveSupply The total reserve supply
+    /// @return The amount of tokens to transfer to the position manager
+    function _getTokenTransferAmount(MigrationData memory data, uint128 reserveSupply) private pure returns (uint128) {
+        // hasOneSidedParams can only be true if shouldCreateOneSided is true
+        return
+            (reserveSupply > data.initialTokenAmount && data.hasOneSidedParams)
+                ? reserveSupply
+                : data.initialTokenAmount;
+    }
+
+    /// @notice Calculates the amount of currency to transfer
+    /// @param data Migration data
+    /// @return The amount of currency to transfer to the position manager
+    function _getCurrencyTransferAmount(MigrationData memory data) private pure returns (uint128) {
+        // hasOneSidedParams can only be true if shouldCreateOneSided is true
+        return (data.leftoverCurrency > 0 && data.hasOneSidedParams)
+            ? data.initialCurrencyAmount + data.leftoverCurrency
+            : data.initialCurrencyAmount;
+    }
+
     /// @notice Creates the plan for creating a full range v4 position using the position manager
     /// @param baseParams The base parameters for the position
     /// @param tokenAmount The amount of token to be used to create the position
     /// @param currencyAmount The amount of currency to be used to create the position
-    /// @param paramsArraySize The size of the parameters array (either 5 or 8)
+    /// @param paramsArraySize The size of the parameters array (either 4 or 5)
     /// @return The actions and parameters for the position
     function _createFullRangePositionPlan(
         BasePositionParams memory baseParams,
@@ -343,6 +394,36 @@ contract UniClearLauncher is IUniClearLauncher, UUPSUpgradeable, AccessControlUp
 
         // Plan the full range position
         return baseParams.planFullRangePosition(fullRangeParams, paramsArraySize);
+    }
+
+    /// @notice Creates the plan for creating a one sided v4 position using the position manager along with the full range position
+    /// @param baseParams The base parameters for the position
+    /// @param actions The existing actions for the full range position which may be extended with the new actions for the one sided position
+    /// @param params The existing parameters for the full range position which may be extended with the new parameters for the one sided position
+    /// @param tokenAmount The amount of token used in the full range position
+    /// @param leftoverCurrency The amount of currency that was leftover from the full range position
+    /// @param reserveSupply The total reserve supply available
+    /// @return The actions and parameters needed to create the full range position and the one sided position
+    function _createOneSidedPositionPlan(
+        BasePositionParams memory baseParams,
+        bytes memory actions,
+        bytes[] memory params,
+        uint128 tokenAmount,
+        uint128 leftoverCurrency,
+        uint128 reserveSupply
+    ) private pure returns (bytes memory, bytes[] memory) {
+        // reserveSupply - tokenAmount will not underflow because of validation in TokenPricing.calculateAmounts()
+        uint128 amount = leftoverCurrency > 0 ? leftoverCurrency : reserveSupply - tokenAmount;
+        bool inToken = leftoverCurrency == 0;
+
+        // Create one-sided specific parameters
+        OneSidedParams memory oneSidedParams = OneSidedParams({
+            amount: amount,
+            inToken: inToken
+        });
+
+        // Plan the one-sided position
+        return baseParams.planOneSidedPosition(oneSidedParams, actions, params);
     }
 
     /// @notice Creates the plan for taking the pair using the position manager

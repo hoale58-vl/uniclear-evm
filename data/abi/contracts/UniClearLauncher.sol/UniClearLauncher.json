@@ -96,6 +96,17 @@
         "type": "error"
     },
     {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "invalidLength",
+                "type": "uint256"
+            }
+        ],
+        "name": "InvalidActionsLength",
+        "type": "error"
+    },
+    {
         "inputs": [],
         "name": "InvalidInitialization",
         "type": "error"
@@ -302,6 +313,25 @@
         "anonymous": false,
         "inputs": [
             {
+                "indexed": false,
+                "internalType": "address",
+                "name": "auctionAddress",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "metadataUri",
+                "type": "string"
+            }
+        ],
+        "name": "MetadataUriUpdated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
                 "components": [
                     {
                         "internalType": "Currency",
@@ -473,6 +503,19 @@
     },
     {
         "inputs": [],
+        "name": "FULL_RANGE_WITH_ONE_SIDED_SIZE",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
         "name": "POOL_FEE",
         "outputs": [
             {
@@ -523,6 +566,11 @@
             {
                 "internalType": "contract IContinuousClearingAuction",
                 "name": "auction",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "creator",
                 "type": "address"
             },
             {
@@ -658,6 +706,11 @@
                 "internalType": "bytes32",
                 "name": "salt",
                 "type": "bytes32"
+            },
+            {
+                "internalType": "string",
+                "name": "metadataUri",
+                "type": "string"
             }
         ],
         "name": "deployTokenAndLaunchAuction",
@@ -818,6 +871,11 @@
                 "internalType": "bytes32",
                 "name": "salt",
                 "type": "bytes32"
+            },
+            {
+                "internalType": "string",
+                "name": "metadataUri",
+                "type": "string"
             }
         ],
         "name": "launchAuction",
