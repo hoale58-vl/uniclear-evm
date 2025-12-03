@@ -2,6 +2,8 @@
   "name": "unichainSepolia",
   "chainId": "1301",
   "addresses": {
+    "MockUNI": "0x3D091f6FB88b5E5Be190ebdcA8a91858088A4Ecb",
+    "MockUSDC": "0x637348D429726b518ED334e3cD56B7D5690903a2",
     "UniClearDeployer": "0x119A16c48A849AaC6176d54cB44685b1D00A36C1",
     "UniClearLauncher": "0x11908772F5adc0872F4567A30560D38e5CDEF51d",
     "UniClearLauncher_Implementation": "0xfff47EaAA0D30741053D53C2A64eD9521611D607",
