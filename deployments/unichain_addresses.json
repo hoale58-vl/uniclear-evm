@@ -1,0 +1,10 @@
+{
+  "name": "unichain",
+  "chainId": "130",
+  "addresses": {
+    "UniClearDeployer": "0x4F82aF98e689586Dea66770F4502D7e1409a5376",
+    "UniClearLauncher": "0x44eDFBFdE4B4317e6cb9448427BBC535f9981fE6",
+    "UniClearLauncher_Implementation": "0xC4beD85D81004fC9326023E5B31392239179ee96",
+    "UniClearLauncher_Proxy": "0x44eDFBFdE4B4317e6cb9448427BBC535f9981fE6"
+  }
+}

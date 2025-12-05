@@ -34,5 +34,5 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     });
 };
 
-func.tags = ["uniclear"];
+func.tags = ["mocks"];
 export default func;
