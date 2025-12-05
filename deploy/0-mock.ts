@@ -26,7 +26,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     // UNI
     await deploy("MockUNI", {
         contract: "MockERC20",
-        args: ["USDC", "USDC", parseEther("100000000000")],
+        args: ["UNI", "UNI", parseEther("100000000000")],
         from: deployer,
         log: true,
         autoMine: true,
