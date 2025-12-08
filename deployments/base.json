@@ -1,0 +1,2314 @@
+{
+  "name": "base",
+  "chainId": "8453",
+  "contracts": {
+    "UniClearDeployer": {
+      "address": "0xd0F6A77EF3f2c2962a7BBa1E91CDeF7AE9c3d503",
+      "abi": []
+    },
+    "UniClearLauncher": {
+      "address": "0xC4beD85D81004fC9326023E5B31392239179ee96",
+      "abi": [
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "previousAdmin",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "newAdmin",
+              "type": "address"
+            }
+          ],
+          "name": "AdminChanged",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "beacon",
+              "type": "address"
+            }
+          ],
+          "name": "BeaconUpgraded",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "implementation",
+              "type": "address"
+            }
+          ],
+          "name": "Upgraded",
+          "type": "event"
+        },
+        {
+          "stateMutability": "payable",
+          "type": "fallback"
+        },
+        {
+          "stateMutability": "payable",
+          "type": "receive"
+        },
+        {
+          "inputs": [],
+          "name": "AccessControlBadConfirmation",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "neededRole",
+              "type": "bytes32"
+            }
+          ],
+          "name": "AccessControlUnauthorizedAccount",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "target",
+              "type": "address"
+            }
+          ],
+          "name": "AddressEmptyCode",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "currencyAmount",
+              "type": "uint256"
+            }
+          ],
+          "name": "AmountOverflow",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "currencyAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "maxAmount",
+              "type": "uint256"
+            }
+          ],
+          "name": "CurrencyAmountTooHigh",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "implementation",
+              "type": "address"
+            }
+          ],
+          "name": "ERC1967InvalidImplementation",
+          "type": "error"
+        },
+        {
+          "inputs": [],
+          "name": "ERC1967NonPayable",
+          "type": "error"
+        },
+        {
+          "inputs": [],
+          "name": "FailedCall",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "required",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "actual",
+              "type": "uint256"
+            }
+          ],
+          "name": "InsufficientCurrency",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "invalidLength",
+              "type": "uint256"
+            }
+          ],
+          "name": "InvalidActionsLength",
+          "type": "error"
+        },
+        {
+          "inputs": [],
+          "name": "InvalidInitialization",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "invalidLength",
+              "type": "uint256"
+            }
+          ],
+          "name": "InvalidParamsLength",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "migrationBlock",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "currentBlock",
+              "type": "uint256"
+            }
+          ],
+          "name": "MigrationNotAllowed",
+          "type": "error"
+        },
+        {
+          "inputs": [],
+          "name": "NoCurrencyRaised",
+          "type": "error"
+        },
+        {
+          "inputs": [],
+          "name": "NotInitializing",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "price",
+              "type": "uint256"
+            }
+          ],
+          "name": "PriceIsZero",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "price",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "maxPrice",
+              "type": "uint256"
+            }
+          ],
+          "name": "PriceTooHigh",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "token",
+              "type": "address"
+            }
+          ],
+          "name": "SafeERC20FailedOperation",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint160",
+              "name": "sqrtPriceX96",
+              "type": "uint160"
+            },
+            {
+              "internalType": "uint160",
+              "name": "minSqrtPriceX96",
+              "type": "uint160"
+            },
+            {
+              "internalType": "uint160",
+              "name": "maxSqrtPriceX96",
+              "type": "uint160"
+            }
+          ],
+          "name": "SqrtPriceX96OutOfBounds",
+          "type": "error"
+        },
+        {
+          "inputs": [],
+          "name": "UUPSUnauthorizedCallContext",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "slot",
+              "type": "bytes32"
+            }
+          ],
+          "name": "UUPSUnsupportedProxiableUUID",
+          "type": "error"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "auction",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "address",
+                  "name": "raisedCurrency",
+                  "type": "address"
+                },
+                {
+                  "internalType": "int24",
+                  "name": "tickSpacing",
+                  "type": "int24"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "startBlock",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "endBlock",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "claimBlock",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "floorPrice",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint128",
+                  "name": "requiredCurrencyRaised",
+                  "type": "uint128"
+                },
+                {
+                  "internalType": "uint128",
+                  "name": "auctionSupply",
+                  "type": "uint128"
+                }
+              ],
+              "indexed": false,
+              "internalType": "struct IUniClearLauncher.AuctionConfig",
+              "name": "auctionConfig",
+              "type": "tuple"
+            }
+          ],
+          "name": "AuctionCreated",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint64",
+              "name": "version",
+              "type": "uint64"
+            }
+          ],
+          "name": "Initialized",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "auctionAddress",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "metadataUri",
+              "type": "string"
+            }
+          ],
+          "name": "MetadataUriUpdated",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "components": [
+                {
+                  "internalType": "Currency",
+                  "name": "currency0",
+                  "type": "address"
+                },
+                {
+                  "internalType": "Currency",
+                  "name": "currency1",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint24",
+                  "name": "fee",
+                  "type": "uint24"
+                },
+                {
+                  "internalType": "int24",
+                  "name": "tickSpacing",
+                  "type": "int24"
+                },
+                {
+                  "internalType": "contract IHooks",
+                  "name": "hooks",
+                  "type": "address"
+                }
+              ],
+              "indexed": false,
+              "internalType": "struct PoolKey",
+              "name": "key",
+              "type": "tuple"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint160",
+              "name": "sqrtPriceX96",
+              "type": "uint160"
+            }
+          ],
+          "name": "Migrated",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "role",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "previousAdminRole",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "newAdminRole",
+              "type": "bytes32"
+            }
+          ],
+          "name": "RoleAdminChanged",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "role",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "sender",
+              "type": "address"
+            }
+          ],
+          "name": "RoleGranted",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "role",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "sender",
+              "type": "address"
+            }
+          ],
+          "name": "RoleRevoked",
+          "type": "event"
+        },
+        {
+          "inputs": [],
+          "name": "DEAD_ADDRESS",
+          "outputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "DEFAULT_ADMIN_ROLE",
+          "outputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "FULL_RANGE_SIZE",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "FULL_RANGE_WITH_ONE_SIDED_SIZE",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "POOL_FEE",
+          "outputs": [
+            {
+              "internalType": "uint24",
+              "name": "",
+              "type": "uint24"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "POOL_TICK_SPACING",
+          "outputs": [
+            {
+              "internalType": "int24",
+              "name": "",
+              "type": "int24"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "UPGRADE_INTERFACE_VERSION",
+          "outputs": [
+            {
+              "internalType": "string",
+              "name": "",
+              "type": "string"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "name": "auctionInfo",
+          "outputs": [
+            {
+              "internalType": "contract IContinuousClearingAuction",
+              "name": "auction",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "raisedCurrency",
+              "type": "address"
+            },
+            {
+              "internalType": "uint128",
+              "name": "reserveSupply",
+              "type": "uint128"
+            },
+            {
+              "internalType": "uint64",
+              "name": "endBlock",
+              "type": "uint64"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "ccaFactory",
+          "outputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "create2Deployer",
+          "outputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "deployFee",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "components": [
+                {
+                  "internalType": "string",
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "internalType": "string",
+                  "name": "symbol",
+                  "type": "string"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "totalSupply",
+                  "type": "uint256"
+                }
+              ],
+              "internalType": "struct IUniClearLauncher.TokenConfig",
+              "name": "tokenConfig",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "address",
+                  "name": "raisedCurrency",
+                  "type": "address"
+                },
+                {
+                  "internalType": "int24",
+                  "name": "tickSpacing",
+                  "type": "int24"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "startBlock",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "endBlock",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "claimBlock",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "floorPrice",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint128",
+                  "name": "requiredCurrencyRaised",
+                  "type": "uint128"
+                },
+                {
+                  "internalType": "uint128",
+                  "name": "auctionSupply",
+                  "type": "uint128"
+                }
+              ],
+              "internalType": "struct IUniClearLauncher.AuctionConfig",
+              "name": "auctionConfig",
+              "type": "tuple"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "salt",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "string",
+              "name": "metadataUri",
+              "type": "string"
+            }
+          ],
+          "name": "deployTokenAndLaunchAuction",
+          "outputs": [
+            {
+              "internalType": "contract IContinuousClearingAuction",
+              "name": "_auction",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "payable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "role",
+              "type": "bytes32"
+            }
+          ],
+          "name": "getRoleAdmin",
+          "outputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "role",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "address",
+              "name": "account",
+              "type": "address"
+            }
+          ],
+          "name": "grantRole",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "role",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "address",
+              "name": "account",
+              "type": "address"
+            }
+          ],
+          "name": "hasRole",
+          "outputs": [
+            {
+              "internalType": "bool",
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "positionManager_",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "create2Deployer_",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "ccaFactory_",
+              "type": "address"
+            }
+          ],
+          "name": "initialize",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "tokenAddress",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "reserveSupply",
+              "type": "uint256"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "address",
+                  "name": "raisedCurrency",
+                  "type": "address"
+                },
+                {
+                  "internalType": "int24",
+                  "name": "tickSpacing",
+                  "type": "int24"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "startBlock",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "endBlock",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "claimBlock",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "floorPrice",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint128",
+                  "name": "requiredCurrencyRaised",
+                  "type": "uint128"
+                },
+                {
+                  "internalType": "uint128",
+                  "name": "auctionSupply",
+                  "type": "uint128"
+                }
+              ],
+              "internalType": "struct IUniClearLauncher.AuctionConfig",
+              "name": "auctionConfig",
+              "type": "tuple"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "salt",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "string",
+              "name": "metadataUri",
+              "type": "string"
+            }
+          ],
+          "name": "launchAuction",
+          "outputs": [
+            {
+              "internalType": "contract IContinuousClearingAuction",
+              "name": "_auction",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "payable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "token",
+              "type": "address"
+            }
+          ],
+          "name": "migrate",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes",
+              "name": "",
+              "type": "bytes"
+            }
+          ],
+          "name": "onERC721Received",
+          "outputs": [
+            {
+              "internalType": "bytes4",
+              "name": "",
+              "type": "bytes4"
+            }
+          ],
+          "stateMutability": "pure",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "positionManager",
+          "outputs": [
+            {
+              "internalType": "contract IPositionManager",
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "proxiableUUID",
+          "outputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "role",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "address",
+              "name": "callerConfirmation",
+              "type": "address"
+            }
+          ],
+          "name": "renounceRole",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "role",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "address",
+              "name": "account",
+              "type": "address"
+            }
+          ],
+          "name": "revokeRole",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "deployFee_",
+              "type": "uint256"
+            }
+          ],
+          "name": "setDeployFee",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes4",
+              "name": "interfaceId",
+              "type": "bytes4"
+            }
+          ],
+          "name": "supportsInterface",
+          "outputs": [
+            {
+              "internalType": "bool",
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "auction",
+              "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "_metadataUri",
+              "type": "string"
+            }
+          ],
+          "name": "updateMetadataUri",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "newImplementation",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes",
+              "name": "data",
+              "type": "bytes"
+            }
+          ],
+          "name": "upgradeToAndCall",
+          "outputs": [],
+          "stateMutability": "payable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "recipient",
+              "type": "address"
+            }
+          ],
+          "name": "withdrawETH",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "_logic",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes",
+              "name": "_data",
+              "type": "bytes"
+            }
+          ],
+          "stateMutability": "payable",
+          "type": "constructor"
+        }
+      ]
+    },
+    "UniClearLauncher_Implementation": {
+      "address": "0x4F82aF98e689586Dea66770F4502D7e1409a5376",
+      "abi": [
+        {
+          "inputs": [],
+          "name": "AccessControlBadConfirmation",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "neededRole",
+              "type": "bytes32"
+            }
+          ],
+          "name": "AccessControlUnauthorizedAccount",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "target",
+              "type": "address"
+            }
+          ],
+          "name": "AddressEmptyCode",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "currencyAmount",
+              "type": "uint256"
+            }
+          ],
+          "name": "AmountOverflow",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "currencyAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "maxAmount",
+              "type": "uint256"
+            }
+          ],
+          "name": "CurrencyAmountTooHigh",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "implementation",
+              "type": "address"
+            }
+          ],
+          "name": "ERC1967InvalidImplementation",
+          "type": "error"
+        },
+        {
+          "inputs": [],
+          "name": "ERC1967NonPayable",
+          "type": "error"
+        },
+        {
+          "inputs": [],
+          "name": "FailedCall",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "required",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "actual",
+              "type": "uint256"
+            }
+          ],
+          "name": "InsufficientCurrency",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "invalidLength",
+              "type": "uint256"
+            }
+          ],
+          "name": "InvalidActionsLength",
+          "type": "error"
+        },
+        {
+          "inputs": [],
+          "name": "InvalidInitialization",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "invalidLength",
+              "type": "uint256"
+            }
+          ],
+          "name": "InvalidParamsLength",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "migrationBlock",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "currentBlock",
+              "type": "uint256"
+            }
+          ],
+          "name": "MigrationNotAllowed",
+          "type": "error"
+        },
+        {
+          "inputs": [],
+          "name": "NoCurrencyRaised",
+          "type": "error"
+        },
+        {
+          "inputs": [],
+          "name": "NotInitializing",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "price",
+              "type": "uint256"
+            }
+          ],
+          "name": "PriceIsZero",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "price",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "maxPrice",
+              "type": "uint256"
+            }
+          ],
+          "name": "PriceTooHigh",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "token",
+              "type": "address"
+            }
+          ],
+          "name": "SafeERC20FailedOperation",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint160",
+              "name": "sqrtPriceX96",
+              "type": "uint160"
+            },
+            {
+              "internalType": "uint160",
+              "name": "minSqrtPriceX96",
+              "type": "uint160"
+            },
+            {
+              "internalType": "uint160",
+              "name": "maxSqrtPriceX96",
+              "type": "uint160"
+            }
+          ],
+          "name": "SqrtPriceX96OutOfBounds",
+          "type": "error"
+        },
+        {
+          "inputs": [],
+          "name": "UUPSUnauthorizedCallContext",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "slot",
+              "type": "bytes32"
+            }
+          ],
+          "name": "UUPSUnsupportedProxiableUUID",
+          "type": "error"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "auction",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "address",
+                  "name": "raisedCurrency",
+                  "type": "address"
+                },
+                {
+                  "internalType": "int24",
+                  "name": "tickSpacing",
+                  "type": "int24"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "startBlock",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "endBlock",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "claimBlock",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "floorPrice",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint128",
+                  "name": "requiredCurrencyRaised",
+                  "type": "uint128"
+                },
+                {
+                  "internalType": "uint128",
+                  "name": "auctionSupply",
+                  "type": "uint128"
+                }
+              ],
+              "indexed": false,
+              "internalType": "struct IUniClearLauncher.AuctionConfig",
+              "name": "auctionConfig",
+              "type": "tuple"
+            }
+          ],
+          "name": "AuctionCreated",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint64",
+              "name": "version",
+              "type": "uint64"
+            }
+          ],
+          "name": "Initialized",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "auctionAddress",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "metadataUri",
+              "type": "string"
+            }
+          ],
+          "name": "MetadataUriUpdated",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "components": [
+                {
+                  "internalType": "Currency",
+                  "name": "currency0",
+                  "type": "address"
+                },
+                {
+                  "internalType": "Currency",
+                  "name": "currency1",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint24",
+                  "name": "fee",
+                  "type": "uint24"
+                },
+                {
+                  "internalType": "int24",
+                  "name": "tickSpacing",
+                  "type": "int24"
+                },
+                {
+                  "internalType": "contract IHooks",
+                  "name": "hooks",
+                  "type": "address"
+                }
+              ],
+              "indexed": false,
+              "internalType": "struct PoolKey",
+              "name": "key",
+              "type": "tuple"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint160",
+              "name": "sqrtPriceX96",
+              "type": "uint160"
+            }
+          ],
+          "name": "Migrated",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "role",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "previousAdminRole",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "newAdminRole",
+              "type": "bytes32"
+            }
+          ],
+          "name": "RoleAdminChanged",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "role",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "sender",
+              "type": "address"
+            }
+          ],
+          "name": "RoleGranted",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "role",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "account",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "sender",
+              "type": "address"
+            }
+          ],
+          "name": "RoleRevoked",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "implementation",
+              "type": "address"
+            }
+          ],
+          "name": "Upgraded",
+          "type": "event"
+        },
+        {
+          "inputs": [],
+          "name": "DEAD_ADDRESS",
+          "outputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "DEFAULT_ADMIN_ROLE",
+          "outputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "FULL_RANGE_SIZE",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "FULL_RANGE_WITH_ONE_SIDED_SIZE",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "POOL_FEE",
+          "outputs": [
+            {
+              "internalType": "uint24",
+              "name": "",
+              "type": "uint24"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "POOL_TICK_SPACING",
+          "outputs": [
+            {
+              "internalType": "int24",
+              "name": "",
+              "type": "int24"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "UPGRADE_INTERFACE_VERSION",
+          "outputs": [
+            {
+              "internalType": "string",
+              "name": "",
+              "type": "string"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "name": "auctionInfo",
+          "outputs": [
+            {
+              "internalType": "contract IContinuousClearingAuction",
+              "name": "auction",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "raisedCurrency",
+              "type": "address"
+            },
+            {
+              "internalType": "uint128",
+              "name": "reserveSupply",
+              "type": "uint128"
+            },
+            {
+              "internalType": "uint64",
+              "name": "endBlock",
+              "type": "uint64"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "ccaFactory",
+          "outputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "create2Deployer",
+          "outputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "deployFee",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "components": [
+                {
+                  "internalType": "string",
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "internalType": "string",
+                  "name": "symbol",
+                  "type": "string"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "totalSupply",
+                  "type": "uint256"
+                }
+              ],
+              "internalType": "struct IUniClearLauncher.TokenConfig",
+              "name": "tokenConfig",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "address",
+                  "name": "raisedCurrency",
+                  "type": "address"
+                },
+                {
+                  "internalType": "int24",
+                  "name": "tickSpacing",
+                  "type": "int24"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "startBlock",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "endBlock",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "claimBlock",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "floorPrice",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint128",
+                  "name": "requiredCurrencyRaised",
+                  "type": "uint128"
+                },
+                {
+                  "internalType": "uint128",
+                  "name": "auctionSupply",
+                  "type": "uint128"
+                }
+              ],
+              "internalType": "struct IUniClearLauncher.AuctionConfig",
+              "name": "auctionConfig",
+              "type": "tuple"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "salt",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "string",
+              "name": "metadataUri",
+              "type": "string"
+            }
+          ],
+          "name": "deployTokenAndLaunchAuction",
+          "outputs": [
+            {
+              "internalType": "contract IContinuousClearingAuction",
+              "name": "_auction",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "payable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "role",
+              "type": "bytes32"
+            }
+          ],
+          "name": "getRoleAdmin",
+          "outputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "role",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "address",
+              "name": "account",
+              "type": "address"
+            }
+          ],
+          "name": "grantRole",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "role",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "address",
+              "name": "account",
+              "type": "address"
+            }
+          ],
+          "name": "hasRole",
+          "outputs": [
+            {
+              "internalType": "bool",
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "positionManager_",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "create2Deployer_",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "ccaFactory_",
+              "type": "address"
+            }
+          ],
+          "name": "initialize",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "tokenAddress",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "reserveSupply",
+              "type": "uint256"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "address",
+                  "name": "raisedCurrency",
+                  "type": "address"
+                },
+                {
+                  "internalType": "int24",
+                  "name": "tickSpacing",
+                  "type": "int24"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "startBlock",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "endBlock",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "claimBlock",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "floorPrice",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint128",
+                  "name": "requiredCurrencyRaised",
+                  "type": "uint128"
+                },
+                {
+                  "internalType": "uint128",
+                  "name": "auctionSupply",
+                  "type": "uint128"
+                }
+              ],
+              "internalType": "struct IUniClearLauncher.AuctionConfig",
+              "name": "auctionConfig",
+              "type": "tuple"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "salt",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "string",
+              "name": "metadataUri",
+              "type": "string"
+            }
+          ],
+          "name": "launchAuction",
+          "outputs": [
+            {
+              "internalType": "contract IContinuousClearingAuction",
+              "name": "_auction",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "payable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "token",
+              "type": "address"
+            }
+          ],
+          "name": "migrate",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes",
+              "name": "",
+              "type": "bytes"
+            }
+          ],
+          "name": "onERC721Received",
+          "outputs": [
+            {
+              "internalType": "bytes4",
+              "name": "",
+              "type": "bytes4"
+            }
+          ],
+          "stateMutability": "pure",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "positionManager",
+          "outputs": [
+            {
+              "internalType": "contract IPositionManager",
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "proxiableUUID",
+          "outputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "role",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "address",
+              "name": "callerConfirmation",
+              "type": "address"
+            }
+          ],
+          "name": "renounceRole",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "role",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "address",
+              "name": "account",
+              "type": "address"
+            }
+          ],
+          "name": "revokeRole",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "deployFee_",
+              "type": "uint256"
+            }
+          ],
+          "name": "setDeployFee",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes4",
+              "name": "interfaceId",
+              "type": "bytes4"
+            }
+          ],
+          "name": "supportsInterface",
+          "outputs": [
+            {
+              "internalType": "bool",
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "auction",
+              "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "_metadataUri",
+              "type": "string"
+            }
+          ],
+          "name": "updateMetadataUri",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "newImplementation",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes",
+              "name": "data",
+              "type": "bytes"
+            }
+          ],
+          "name": "upgradeToAndCall",
+          "outputs": [],
+          "stateMutability": "payable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "recipient",
+              "type": "address"
+            }
+          ],
+          "name": "withdrawETH",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "stateMutability": "payable",
+          "type": "receive"
+        }
+      ]
+    },
+    "UniClearLauncher_Proxy": {
+      "address": "0xC4beD85D81004fC9326023E5B31392239179ee96",
+      "abi": [
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "_logic",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes",
+              "name": "_data",
+              "type": "bytes"
+            }
+          ],
+          "stateMutability": "payable",
+          "type": "constructor"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "previousAdmin",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "newAdmin",
+              "type": "address"
+            }
+          ],
+          "name": "AdminChanged",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "beacon",
+              "type": "address"
+            }
+          ],
+          "name": "BeaconUpgraded",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "implementation",
+              "type": "address"
+            }
+          ],
+          "name": "Upgraded",
+          "type": "event"
+        },
+        {
+          "stateMutability": "payable",
+          "type": "fallback"
+        },
+        {
+          "stateMutability": "payable",
+          "type": "receive"
+        }
+      ]
+    }
+  }
+}

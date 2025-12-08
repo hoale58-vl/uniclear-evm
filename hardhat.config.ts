@@ -1,5 +1,6 @@
-import { task } from "hardhat/config";
+import "hardhat/types/config";
 import "@openzeppelin/hardhat-upgrades";
+import "@nomicfoundation/hardhat-toolbox";
 import "@nomicfoundation/hardhat-verify";
 import "@nomicfoundation/hardhat-chai-matchers";
 import "hardhat-contract-sizer";
@@ -12,16 +13,6 @@ import "@nomicfoundation/hardhat-ethers";
 import "@typechain/hardhat";
 
 dotenv.config();
-
-// This is a sample Hardhat task. To learn how to create your own go to
-// https://hardhat.org/guides/create-task.html
-task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
-  const accounts = await hre.ethers.getSigners();
-
-  for (const account of accounts) {
-    console.log(account.address);
-  }
-});
 
 const {
   PRIVATE_KEY: privateKey = "0x0000000000000000000000000000000000000000000000000000000000000001",
@@ -47,6 +38,13 @@ module.exports = {
     "unichain": {
       url: "https://unichain-rpc.publicnode.com",
       chainId: 130,
+      gasPrice: 10000000,
+      accounts: [privateKey],
+      timeout: 2_147_483_647,
+    },
+    "base": {
+      url: "https://base-rpc.publicnode.com",
+      chainId: 8453,
       gasPrice: 10000000,
       accounts: [privateKey],
       timeout: 2_147_483_647,
@@ -103,6 +101,7 @@ module.exports = {
   etherscan: {
     apiKey: {
       "unichain": etherscanApi,
+      "base": etherscanApi,
       "ethereum": etherscanApi,
     },
     customChains: [
@@ -110,15 +109,24 @@ module.exports = {
         network: "unichain",
         chainId: 130,
         urls: {
-          apiURL: "https://api.uniscan.xyz/api",
+          apiURL: "https://api.etherscan.io/v2/api?chainid=130",
           browserURL: "https://uniscan.xyz",
         },
       },
       {
-        network: "ethereum",
-        chainId: 1
-      },
+        network: "base",
+        chainId: 8453,
+        urls: {
+          apiURL: "https://api.etherscan.io/v2/api?chainid=8453",
+          browserURL: "https://basescan.org",
+        },
+      }
     ],
+  },
+  verify: {
+    etherscan: {
+      apiKey: etherscanApi,
+    },
   },
   sourcify: {
     // Disabled by default

@@ -90,11 +90,11 @@ The project is configured for Unichain networks. See `scripts/config.ts` for con
 
 **Deployed UniClear Contracts:**
 
-| Contract | Unichain Mainnet (Chain ID: 130) | Unichain Sepolia (Chain ID: 1301) |
+| Contract | Unichain Mainnet (Chain ID: 130) | Base (Chain ID: 8453) | Unichain Sepolia (Chain ID: 1301) |
 |----------|-----------------|------------------|
-| **UniClearDeployer** (Library) | 0x4F82aF98e689586Dea66770F4502D7e1409a5376 | `0xd848f710398c6d2ee9A850E992817f3e8aFc76Cb` |
-| **UniClearLauncher** (Proxy) | 0x44eDFBFdE4B4317e6cb9448427BBC535f9981fE6 | `0xd2465E107f25df9afC09Bfd0f533E9F4fF22B31F` |
-| **UniClearLauncher** (Implementation) | 0xC4beD85D81004fC9326023E5B31392239179ee96 | `0x007F0F96e51628e8e98517451f3F8E06Dc50da59` |
+| **UniClearDeployer** (Library) | `0x4F82aF98e689586Dea66770F4502D7e1409a5376` | `0xd0F6A77EF3f2c2962a7BBa1E91CDeF7AE9c3d503` | `0xd848f710398c6d2ee9A850E992817f3e8aFc76Cb` |
+| **UniClearLauncher** (Proxy) | `0x44eDFBFdE4B4317e6cb9448427BBC535f9981fE6` | `0xC4beD85D81004fC9326023E5B31392239179ee96` | `0xd2465E107f25df9afC09Bfd0f533E9F4fF22B31F` |
+| **UniClearLauncher** (Implementation) | `0xC4beD85D81004fC9326023E5B31392239179ee96` | `0x4F82aF98e689586Dea66770F4502D7e1409a5376` | `0x007F0F96e51628e8e98517451f3F8E06Dc50da59` |
 
 ## Architecture
 

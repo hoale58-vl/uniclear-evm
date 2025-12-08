@@ -1,0 +1,10 @@
+{
+  "name": "base",
+  "chainId": "8453",
+  "addresses": {
+    "UniClearDeployer": "0xd0F6A77EF3f2c2962a7BBa1E91CDeF7AE9c3d503",
+    "UniClearLauncher": "0xC4beD85D81004fC9326023E5B31392239179ee96",
+    "UniClearLauncher_Implementation": "0x4F82aF98e689586Dea66770F4502D7e1409a5376",
+    "UniClearLauncher_Proxy": "0xC4beD85D81004fC9326023E5B31392239179ee96"
+  }
+}

@@ -18,8 +18,16 @@ const unichainSepoliaScriptConfig: Config = {
   CcaFactory: "0x0000ccaDF55C911a2FbC0BB9d2942Aa77c6FAa1D",
 };
 
+const baseScriptConfig: Config = {
+  PositionManager: "0x7c5f5a4bbd8fd63184577525326123b519429bdc",
+  Create2Deployer: "0x13b0D85CcB8bf860b6b79AF3029fCA081AE9beF2",
+  CcaFactory: "0x0000ccaDF55C911a2FbC0BB9d2942Aa77c6FAa1D",
+};
+
+
 const configs: Record<string, Config> = {
   "unichain": unichainScriptConfig,
+  "base": baseScriptConfig,
   "unichainSepolia": unichainSepoliaScriptConfig,
   "hardhat": unichainScriptConfig,
 };
